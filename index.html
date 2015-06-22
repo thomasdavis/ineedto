@@ -1,0 +1,36 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.1/backbone-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone-localstorage.js/1.1.16/backbone.localStorage-min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/1.6.0/annyang.min.js"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css" />
+<link href="style.css" />
+<script>
+if (annyang) {
+  // Let's define our first command. First the text we expect, and then the function it should call
+  var todo = localStorage.getItem('todo') || [];
+
+  var commands = {
+    'i need to *message': function(message) {
+      todo.
+      $('ol').prepend($('<li/>').text(message));
+    },
+    'delete *number': function(number){
+      console.log(number);
+      var elIndex = number - 1;
+      $('ol li:eq('+elIndex+')').remove()
+    }
+  }; 
+
+  annyang.debug();
+  // Add our commands to annyang
+  annyang.addCommands(commands);
+
+  // Start listening. You can call this here, or attach this call to an event, button, etc.
+  annyang.start();
+}
+</script>
+<div class="container">
+<ol></ol>
+</div>
