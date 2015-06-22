@@ -7,14 +7,37 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css" />
 <link href="style.css" />
 <script>
+$(document).ready(function(){
+
 if (annyang) {
-  // Let's define our first command. First the text we expect, and then the function it should call
-  var todo = localStorage.getItem('todo') || [];
+  var Todos = Backbone.Collection.extend({
+
+    localStorage: new Backbone.LocalStorage("todos") 
+
+
+  });
+  var todos = new Todos();
+  function render() {
+    console.log('rendering', todos);
+    $('ol').empty();
+    _.each(todos.models, function(todo){
+      $('ol').append($('<li/>').text(todo.attributes.todo));
+
+    })
+  }
+  todos.fetch({
+    success: function () {
+      render();
+    }
+  });
+  console.log(todos);
+  todos.on("add", function() {
+    render();
+  });
 
   var commands = {
     'i need to *message': function(message) {
-      todo.
-      $('ol').prepend($('<li/>').text(message));
+      todos.create({todo: message});
     },
     'delete *number': function(number){
       console.log(number);
@@ -30,6 +53,8 @@ if (annyang) {
   // Start listening. You can call this here, or attach this call to an event, button, etc.
   annyang.start();
 }
+})
+
 </script>
 <div class="container">
 <ol></ol>
