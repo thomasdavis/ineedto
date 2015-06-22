@@ -20,7 +20,7 @@ if (annyang) {
   function render() {
     console.log('rendering', todos);
     $('ol').empty();
-    _.each(todos.models, function(todo){
+    _.each(todos.models, function(todo, index){
       $('ol').append($('<li/>').text(todo.attributes.todo));
 
     })
@@ -35,14 +35,18 @@ if (annyang) {
     render();
   });
 
+  todos.on("remove", function() {
+    render();
+  });
   var commands = {
     'i need to *message': function(message) {
       todos.create({todo: message});
     },
     'delete *number': function(number){
+
       console.log(number);
       var elIndex = number - 1;
-      $('ol li:eq('+elIndex+')').remove()
+      todos.get(todos.models[elIndex]).destroy();
     }
   }; 
 
